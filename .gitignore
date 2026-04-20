@@ -1,0 +1,32 @@
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Runtime data
+db_data/
+wordpress_data/
+
+# WordPress generated files, in case only wp-content is checked in later
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/cache/
+wp-content/backup*/
+wp-content/backups/
+wp-content/debug.log
+wp-config.php
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+
+# Dependency/build output
+node_modules/
+vendor/
+dist/
+build/
+coverage/
+
