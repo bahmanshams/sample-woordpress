@@ -10,7 +10,7 @@ Copy `.env.example` to `.env` and replace every password and WordPress salt befo
 cp .env.example .env
 ```
 
-For production, set `APP_HOST` to the public hostname, set `APP_SCHEME=https`, and terminate TLS in front of this stack or expose it through a secured reverse proxy.
+For production behind Nginx Proxy Manager, set `APP_HOST` to the public hostname and `APP_SCHEME=https`. TLS terminates in Nginx Proxy Manager; this stack serves plain HTTP internally.
 
 ## Start locally
 
@@ -18,8 +18,20 @@ For production, set `APP_HOST` to the public hostname, set `APP_SCHEME=https`, a
 docker compose up -d
 ```
 
-WordPress will be available at `http://localhost` by default. For local development on a different port, set `NGINX_PORT=8088` in `.env`.
+WordPress will be available at `http://localhost` by default. For local development or a host-port target for Nginx Proxy Manager, set `NGINX_PORT=8088` in `.env`.
 The internal Docker hostname for `cp-api` is `http://woo-local.local/`.
+
+## Nginx Proxy Manager SSL
+
+Create a Proxy Host in Nginx Proxy Manager with:
+
+- Domain Names: your public WordPress hostname.
+- Scheme: `http`.
+- Forward Hostname / IP: the Docker host IP, or `woo-app-nginx` if Nginx Proxy Manager is attached to this Compose network.
+- Forward Port: the value of `NGINX_PORT`, or `80` when proxying by container name on the shared Docker network.
+- SSL: request or select the certificate in Nginx Proxy Manager, then enable Force SSL.
+
+Nginx Proxy Manager sends `X-Forwarded-Proto: https`; the bundled Nginx config passes that through to PHP so WordPress treats the request as HTTPS.
 
 ## Stop
 
