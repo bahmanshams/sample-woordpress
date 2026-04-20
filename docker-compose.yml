@@ -71,16 +71,10 @@ services:
       - ./wordpress_data:/var/www/html:ro
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
-      default: null
-      visionnetwork:
-        aliases:
-          - woo-local
-          - woo-local.local
+      - default
     security_opt:
       - no-new-privileges:true
 
 networks:
   default:
     name: woo-app_default
-  visionnetwork:
-    external: true

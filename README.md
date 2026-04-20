@@ -18,8 +18,7 @@ For production behind Nginx Proxy Manager, set `APP_HOST` to the public hostname
 docker compose up -d
 ```
 
-WordPress will be available at `http://localhost` by default. For local development or a host-port target for Nginx Proxy Manager, set `NGINX_PORT=8088` in `.env`.
-The internal Docker hostname for `cp-api` is `http://woo-local.local/`.
+WordPress will be available at `http://localhost:8088` by default. Set `NGINX_PORT` in `.env` to the host port that Nginx Proxy Manager should forward to.
 
 ## Nginx Proxy Manager SSL
 
@@ -27,8 +26,8 @@ Create a Proxy Host in Nginx Proxy Manager with:
 
 - Domain Names: your public WordPress hostname.
 - Scheme: `http`.
-- Forward Hostname / IP: the Docker host IP, or `woo-app-nginx` if Nginx Proxy Manager is attached to this Compose network.
-- Forward Port: the value of `NGINX_PORT`, or `80` when proxying by container name on the shared Docker network.
+- Forward Hostname / IP: the Docker host IP, such as `127.0.0.1` when Nginx Proxy Manager runs on the same host and can reach host-published ports.
+- Forward Port: the value of `NGINX_PORT` from `.env`; default is `8088`.
 - SSL: request or select the certificate in Nginx Proxy Manager, then enable Force SSL.
 
 Nginx Proxy Manager sends `X-Forwarded-Proto: https`; the bundled Nginx config passes that through to PHP so WordPress treats the request as HTTPS.
